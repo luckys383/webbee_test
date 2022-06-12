@@ -94,7 +94,18 @@ class MenuController extends BaseController
     ]
      */
 
-    public function getMenuItems() {
-        throw new \Exception('implement in coding task 3');
+    /**
+     * Get all the menus with infinit children.
+     * Just a note, on large data set, this would get slower with two reasons
+     * 1. loading all the data in single request.
+     * 2. It is querying on nexted level to find and get the children.
+     */
+    public function getMenuItems()
+    {
+        $menus = MenuItem::whereNull('parent_id')
+                        ->with('children')
+                        ->get();
+        return $menus;
+
     }
 }
